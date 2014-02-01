@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'tmpdir'
 
-require 'cane/file'
+require 'sugarcane/file'
 
-describe Cane::File do
+describe SugarCane::File do
   describe '.case_insensitive_glob' do
     it 'matches all kinds of readmes' do
       expected = %w(
@@ -17,7 +17,7 @@ describe Cane::File do
           expected.each do |x|
             FileUtils.touch(x)
           end
-          Cane::File.case_insensitive_glob("README*").should =~ expected
+          SugarCane::File.case_insensitive_glob("README*").should =~ expected
         end
       end
     end

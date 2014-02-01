@@ -1,11 +1,10 @@
 # encoding: utf-8
 require 'spec_helper'
-
-require 'cane/encoding_aware_iterator'
+require 'sugarcane/encoding_aware_iterator'
 
 # Example bad input from:
 #   http://stackoverflow.com/questions/1301402/example-invalid-utf8-string
-describe Cane::EncodingAwareIterator do
+describe SugarCane::EncodingAwareIterator do
   it 'handles non-UTF8 input' do
     lines = ["\xc3\x28"]
     result = described_class.new(lines).map.with_index do |line, number|

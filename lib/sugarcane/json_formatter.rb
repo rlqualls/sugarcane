@@ -1,6 +1,6 @@
 require 'json'
 
-module Cane
+module SugarCane
 
   # Computes a machine-readable JSON representation from an array of violations
   # computed by the checks.

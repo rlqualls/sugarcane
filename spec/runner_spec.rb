@@ -1,8 +1,7 @@
 require 'spec_helper'
+require 'sugarcane/runner'
 
-require 'cane/runner'
-
-describe Cane::Runner do
+describe SugarCane::Runner do
   describe '#run' do
     it 'returns true iff fewer violations than max allowed' do
       described_class.new(checks: [], max_violations: 0).run.should be
@@ -10,7 +9,7 @@ describe Cane::Runner do
     end
 
     it 'returns JSON output' do
-      formatter = fire_replaced_class_double("Cane::JsonFormatter")
+      formatter = fire_replaced_class_double("SugarCane::JsonFormatter")
       formatter.should_receive(:new).and_return("JSON")
       buffer = StringIO.new("")
 

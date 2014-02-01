@@ -1,8 +1,7 @@
 require 'spec_helper'
+require 'sugarcane/threshold_check'
 
-require 'cane/threshold_check'
-
-describe Cane::ThresholdCheck do
+describe SugarCane::ThresholdCheck do
 
   let(:simplecov_last_run) do
     <<-ENDL
@@ -37,7 +36,7 @@ describe Cane::ThresholdCheck do
     context 'when coverage threshold is valid' do
       before do
         file = fire_replaced_class_double("Cane::File")
-        stub_const("Cane::File", file)
+        stub_const("SugarCane::File", file)
         file.should_receive(:contents).with('x').and_return("8\n")
       end
 
@@ -89,7 +88,7 @@ describe Cane::ThresholdCheck do
 
     it "normalizes an invalid file to an unavailable value" do
       limit = subject.normalized_limit("/File.does.not.exist")
-      limit.should be_a Cane::ThresholdCheck::UnavailableValue
+      limit.should be_a SugarCane::ThresholdCheck::UnavailableValue
     end
 
 

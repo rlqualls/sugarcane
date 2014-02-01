@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-require 'cane/abc_check'
+require 'sugarcane/abc_check'
 
-describe Cane::AbcCheck do
+describe SugarCane::AbcCheck do
   def check(file_name, opts = {})
     described_class.new(opts.merge(abc_glob: file_name))
   end

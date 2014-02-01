@@ -1,8 +1,7 @@
 require 'spec_helper'
+require 'sugarcane/style_check'
 
-require 'cane/style_check'
-
-describe Cane::StyleCheck do
+describe SugarCane::StyleCheck do
   def check(file_name, opts = {})
     described_class.new(opts.merge(style_glob: file_name))
   end

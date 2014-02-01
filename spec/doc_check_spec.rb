@@ -1,8 +1,7 @@
 require 'spec_helper'
+require 'sugarcane/doc_check'
 
-require 'cane/doc_check'
-
-describe Cane::DocCheck do
+describe SugarCane::DocCheck do
   def check(file_name, opts = {})
     described_class.new(opts.merge(doc_glob: file_name))
   end
@@ -100,7 +99,7 @@ class Doc; end
   end
 
   it 'creates a violation for missing README' do
-    file = fire_replaced_class_double("Cane::File")
+    file = fire_replaced_class_double("SugarCane::File")
     stub_const("Cane::File", file)
     file.should_receive(:case_insensitive_glob).with("README*").and_return([])
 
@@ -113,8 +112,8 @@ class Doc; end
   end
 
   it 'does not create a violation when readme exists' do
-    file = fire_replaced_class_double("Cane::File")
-    stub_const("Cane::File", file)
+    file = fire_replaced_class_double("SugarCane::File")
+    stub_const("SugarCane::File", file)
     file
       .should_receive(:case_insensitive_glob)
       .with("README*")

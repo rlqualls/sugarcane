@@ -1,8 +1,7 @@
 require 'spec_helper'
+require 'sugarcane/violation_formatter'
 
-require 'cane/violation_formatter'
-
-describe Cane::ViolationFormatter do
+describe SugarCane::ViolationFormatter do
   def violation(description)
     {
       description: description

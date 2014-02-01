@@ -54,7 +54,7 @@ module SugarCane
 
     def value_from_file(file)
       begin
-        contents = Cane::File.contents(file).scan(/\d+\.?\d*/).first.to_f
+        contents = SugarCane::File.contents(file).scan(/\d+\.?\d*/).first.to_f
       rescue Errno::ENOENT
         UnavailableValue.new
       end
@@ -71,8 +71,11 @@ module SugarCane
     # Null object for all cases when the value to be compared against cannot be
     # read.
     class UnavailableValue
-      def >=(_); false end
-      def to_s; 'unavailable' end
+      def <(_); false; end
+      def >(_); false; end
+      def <=(_); false; end
+      def >=(_); false; end
+      def to_s; 'unavailable'; end
       def real?; false; end
     end
   end

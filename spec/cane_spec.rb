@@ -1,9 +1,9 @@
 require 'spec_helper'
 require "stringio"
-require 'cane/cli'
+require 'sugarcane/cli'
 
-require 'cane/rake_task'
-require 'cane/task_runner'
+require 'sugarcane/rake_task'
+require 'sugarcane/task_runner'
 
 # Acceptance tests
 describe 'The cane application' do
@@ -68,7 +68,7 @@ describe 'The cane application' do
   it 'can run tasks in parallel' do
     # This spec isn't great, but there is no good way to actually observe that
     # tasks run in parallel and we want to verify the conditional is correct.
-    Cane.task_runner(parallel: true).should == Parallel
+    SugarCane.task_runner(parallel: true).should == Parallel
   end
 
   it 'colorizes output' do
@@ -86,7 +86,7 @@ describe 'The cane application' do
   def run(cli_args)
     result = nil
     output = capture_stdout do
-      result = Cane::CLI.run(
+      result = SugarCane::CLI.run(
         %w(--no-abc --no-style --no-doc) + cli_args.split(/\s+/m)
       )
     end

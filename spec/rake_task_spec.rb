@@ -1,8 +1,7 @@
 require 'spec_helper'
+require 'sugarcane/rake_task'
 
-require 'cane/rake_task'
-
-describe Cane::RakeTask do
+describe SugarCane::RakeTask do
   it 'enables cane to be configured an run via rake' do
     fn = make_file("90")
     my_check = Class.new(Struct.new(:opts)) do
@@ -11,7 +10,7 @@ describe Cane::RakeTask do
       end
     end
 
-    task = Cane::RakeTask.new(:quality) do |cane|
+    task = SugarCane::RakeTask.new(:quality) do |cane|
       cane.no_abc = true
       cane.no_doc = true
       cane.no_style = true
@@ -35,8 +34,8 @@ describe Cane::RakeTask do
   it 'can be configured using a .cane file' do
     conf = "--gte 90,99"
 
-    task = Cane::RakeTask.new(:canefile_quality) do |cane|
-      cane.canefile = make_file(conf)
+    task = SugarCane::RakeTask.new(:canefile_quality) do |cane|
+      cane.sugarcanefile = make_file(conf)
     end
 
     task.should_receive(:abort)
@@ -50,9 +49,9 @@ describe Cane::RakeTask do
   it 'defaults to using a canefile without a block' do
     in_tmp_dir do
       conf = "--gte 90,99"
-      conf_file = File.open('.cane', 'w') {|f| f.write conf }
+      conf_file = File.open('.sugarcane', 'w') {|f| f.write conf }
 
-      task = Cane::RakeTask.new(:canefile_quality)
+      task = SugarCane::RakeTask.new(:canefile_quality)
 
       task.should_receive(:abort)
       out = capture_stdout do

@@ -1,12 +1,12 @@
 require 'spec_helper'
 require "stringio"
-require 'cane/cli/parser'
+require 'sugarcane/cli/parser'
 
-describe Cane::CLI::Parser do
+describe SugarCane::CLI::Parser do
   def run(cli_args)
     result = nil
     output = StringIO.new("")
-    result = Cane::CLI::Parser.new(output).parse(cli_args.split(/\s+/m))
+    result = SugarCane::CLI::Parser.new(output).parse(cli_args.split(/\s+/m))
 
     [output.string, result]
   end
@@ -77,7 +77,7 @@ describe Cane::CLI::Parser do
     output, result = run("--version")
 
     result.should be
-    output.should include(Cane::VERSION)
+    output.should include(SugarCane::VERSION)
   end
 
   it 'supports exclusions' do
@@ -109,10 +109,10 @@ describe Cane::CLI::Parser do
       --abc-glob myfile
       --style-glob myfile
     EOS
-    file = fire_replaced_class_double("Cane::File")
-    stub_const("Cane::File", file)
-    file.should_receive(:exists?).with('./.cane').and_return(true)
-    file.should_receive(:contents).with('./.cane').and_return(defaults)
+    file = fire_replaced_class_double("SugarCane::File")
+    stub_const("SugarCane::File", file)
+    file.should_receive(:exists?).with('./.sugarcane').and_return(true)
+    file.should_receive(:contents).with('./.sugarcane').and_return(defaults)
 
     _, result = run("--style-glob myotherfile")
 
