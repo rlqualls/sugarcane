@@ -1,4 +1,4 @@
-module Cane
+module SugarCane
 
   # Provides iteration over lines (from a file), correctly handling encoding.
   class EncodingAwareIterator

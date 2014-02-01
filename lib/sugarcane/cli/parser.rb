@@ -1,10 +1,9 @@
 require 'optparse'
+require 'sugarcane/default_checks'
+require 'sugarcane/cli/options'
+require 'sugarcane/version'
 
-require 'cane/default_checks'
-require 'cane/cli/options'
-require 'cane/version'
-
-module Cane
+module SugarCane
   module CLI
 
     # Provides a specification for the command line interface that drives
@@ -25,7 +24,7 @@ module Cane
         add_banner
         add_user_defined_checks
 
-        Cane.default_checks.each do |check|
+        SugarCane.default_checks.each do |check|
           add_check_options(check)
         end
         add_checks_shortcut
@@ -38,8 +37,7 @@ module Cane
 
       def parse(args, ret = true)
         parser.parse!(get_default_options + args)
-
-        Cane::CLI.default_options.merge(options)
+        SugarCane::CLI.default_options.merge(options)
       rescue OptionParser::InvalidOption, OptionParser::AmbiguousOption
         args = %w(--help)
         ret = false
@@ -49,12 +47,12 @@ module Cane
       end
 
       def get_default_options
-        read_options_from_file './.cane'
+        read_options_from_file './.sugarcane'
       end
 
       def read_options_from_file(file)
-        if Cane::File.exists?(file)
-          Cane::File.contents(file).split(/\s+/m)
+        if SugarCane::File.exists?(file)
+          SugarCane::File.contents(file).split(/\s+/m)
         else
           []
         end
@@ -62,9 +60,9 @@ module Cane
 
       def add_banner
         parser.banner = <<-BANNER
-Usage: cane [options]
+Usage: sugarcane [options]
 
-Default options are loaded from a .cane file in the current directory.
+Default options are loaded from a .sugarcane file in the current directory.
 
 BANNER
       end
@@ -137,7 +135,7 @@ BANNER
 
       def add_version
         parser.on_tail("-v", "--version", "Show version") do
-          stdout.puts Cane::VERSION
+          stdout.puts SugarCane::VERSION
           raise OptionsHandled
         end
       end
@@ -166,7 +164,7 @@ BANNER
 
       def options
         @options ||= {
-          checks: Cane.default_checks
+          checks: SugarCane.default_checks
         }
       end
 

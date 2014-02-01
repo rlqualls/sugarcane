@@ -1,10 +1,10 @@
 require 'ripper'
 require 'set'
 
-require 'cane/file'
-require 'cane/task_runner'
+require 'sugarcane/file'
+require 'sugarcane/task_runner'
 
-module Cane
+module SugarCane
 
   # Creates violations for methods that are too complicated using a simple
   # algorithm run against the parse tree of a file to count assignments,
@@ -44,7 +44,7 @@ module Cane
     protected
 
     def find_violations(file_name)
-      ast = Ripper::SexpBuilder.new(Cane::File.contents(file_name)).parse
+      ast = Ripper::SexpBuilder.new(SugarCane::File.contents(file_name)).parse
       case ast
       when nil
         InvalidAst.new(file_name)
@@ -195,7 +195,7 @@ module Cane
     end
 
     def worker
-      Cane.task_runner(opts)
+      SugarCane.task_runner(opts)
     end
   end
 end

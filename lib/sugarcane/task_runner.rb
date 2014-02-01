@@ -1,5 +1,5 @@
 # Provides a SimpleTaskRunner or Parallel task runner based on configuration
-module Cane
+module SugarCane
   def task_runner(opts)
     if opts[:parallel]
       Parallel

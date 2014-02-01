@@ -1,6 +1,6 @@
-require 'cane/file'
+require 'sugarcane/file'
 
-module Cane
+module SugarCane
 
   # Configurable check that allows the contents of a file to be compared against
   # a given value.

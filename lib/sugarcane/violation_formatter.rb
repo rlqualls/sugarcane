@@ -1,7 +1,7 @@
 require 'stringio'
 require 'ostruct'
 
-module Cane
+module SugarCane
 
   # Computes a string to be displayed as output from an array of violations
   # computed by the checks.

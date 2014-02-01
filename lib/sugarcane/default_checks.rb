@@ -1,10 +1,10 @@
-require 'cane/abc_check'
-require 'cane/style_check'
-require 'cane/doc_check'
-require 'cane/threshold_check'
+require 'sugarcane/abc_check'
+require 'sugarcane/style_check'
+require 'sugarcane/doc_check'
+require 'sugarcane/threshold_check'
 
 # Default checks performed when no checks are provided
-module Cane
+module SugarCane
   def default_checks
     [
       AbcCheck,

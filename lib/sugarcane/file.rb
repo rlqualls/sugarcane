@@ -1,6 +1,6 @@
-require 'cane/encoding_aware_iterator'
+require 'sugarcane/encoding_aware_iterator'
 
-module Cane
+module SugarCane
 
   # An interface for interacting with files that ensures encoding is handled in
   # a consistent manner.

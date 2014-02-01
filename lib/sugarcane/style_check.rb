@@ -1,9 +1,9 @@
 require 'set'
 
-require 'cane/file'
-require 'cane/task_runner'
+require 'sugarcane/file'
+require 'sugarcane/task_runner'
 
-module Cane
+module SugarCane
 
   # Creates violations for files that do not meet style conventions. Only
   # highly obvious, probable, and non-controversial checks are performed here.
@@ -68,7 +68,7 @@ module Cane
     end
 
     def map_lines(file_path, &block)
-      Cane::File.iterator(file_path).map.with_index(&block)
+      SugarCane::File.iterator(file_path).map.with_index(&block)
     end
 
     def exclusions
@@ -82,7 +82,7 @@ module Cane
     end
 
     def worker
-      Cane.task_runner(opts)
+      SugarCane.task_runner(opts)
     end
   end
 

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'sugarcane/cli'
+
+result = SugarCane::CLI.run(ARGV)
+
+exit(1) unless result

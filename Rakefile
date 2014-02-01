@@ -15,15 +15,15 @@ rescue LoadError
 end
 
 begin
-  require 'cane/rake_task'
+  require 'sugarcane/rake_task'
 
   desc "Run cane to check quality metrics"
-  Cane::RakeTask.new(:quality) do |cane|
+  SugarCane::RakeTask.new(:quality) do |cane|
     cane.abc_max = 12
     cane.add_threshold 'coverage/covered_percent', :>=, 100
   end
 
   task :default => :quality
 rescue LoadError
-  warn "cane not available, quality task not provided."
+  warn "sugarcane not available, quality task not provided."
 end

@@ -1,6 +1,6 @@
-require 'cane/default_checks'
+require 'sugarcane/default_checks'
 
-module Cane
+module SugarCane
   # Default options for command line interface
   module CLI
     def defaults(check)
@@ -20,8 +20,8 @@ module Cane
         max_violations:  0,
         parallel:        false,
         exclusions_file: nil,
-        checks:          Cane.default_checks
-      }.merge(Cane.default_checks.inject({}) {|a, check|
+        checks:          SugarCane.default_checks
+      }.merge(SugarCane.default_checks.inject({}) {|a, check|
         a.merge(defaults(check))
       })
     end

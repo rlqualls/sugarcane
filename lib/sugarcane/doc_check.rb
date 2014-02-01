@@ -1,7 +1,7 @@
-require 'cane/file'
-require 'cane/task_runner'
+require 'sugarcane/file'
+require 'sugarcane/task_runner'
 
-module Cane
+module SugarCane
 
   # Creates violations for class definitions that do not have an explantory
   # comment immediately preceding.
@@ -75,7 +75,7 @@ module Cane
       open_classes = []
       last_line = ""
 
-      Cane::File.iterator(file_name).each_with_index do |line, number|
+      SugarCane::File.iterator(file_name).each_with_index do |line, number|
         if class_definition? line
           if single_line_class_definition? line
             closed_classes
@@ -106,7 +106,7 @@ module Cane
       result = []
       return result if opts[:no_readme]
 
-      if Cane::File.case_insensitive_glob("README*").none?
+      if SugarCane::File.case_insensitive_glob("README*").none?
         result << { description: 'Missing documentation',
                     label: 'No README found' }
       end
@@ -148,7 +148,7 @@ module Cane
     end
 
     def worker
-      Cane.task_runner(opts)
+      SugarCane.task_runner(opts)
     end
   end
 end

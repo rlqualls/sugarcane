@@ -1,10 +1,10 @@
 require 'parallel'
 
-require 'cane/violation_formatter'
-require 'cane/json_formatter'
+require 'sugarcane/violation_formatter'
+require 'sugarcane/json_formatter'
 
 # Accepts a parsed configuration and passes those options to a new Runner
-module Cane
+module SugarCane
   def run(*args)
     Runner.new(*args).run
   end

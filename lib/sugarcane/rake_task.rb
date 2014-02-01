@@ -1,10 +1,10 @@
 require 'rake'
 require 'rake/tasklib'
 
-require 'cane/cli/options'
-require 'cane/cli/parser'
+require 'sugarcane/cli/options'
+require 'sugarcane/cli/parser'
 
-module Cane
+module SugarCane
   # Creates a rake task to run cane with given configuration.
   #
   # Examples
@@ -20,7 +20,7 @@ module Cane
     attr_accessor :name
     attr_reader :options
 
-    Cane::CLI.default_options.keys.each do |name|
+    SugarCane::CLI.default_options.keys.each do |name|
       define_method(name) do
         options.fetch(name)
       end
@@ -44,7 +44,7 @@ module Cane
     end
 
     def canefile=(file)
-      canefile = Cane::CLI::Parser.new
+      canefile = SugarCane::CLI::Parser.new
       canefile.parser.parse!(canefile.read_options_from_file(file))
       options.merge! canefile.options
     end
@@ -52,7 +52,7 @@ module Cane
     def initialize(task_name = nil)
       self.name = task_name || :cane
       @gte = []
-      @options = Cane::CLI.default_options
+      @options = SugarCane::CLI.default_options
 
       if block_given?
         yield self
@@ -66,7 +66,7 @@ module Cane
 
       task name do
         require 'cane/cli'
-        abort unless Cane.run(options)
+        abort unless SugarCane.run(options)
       end
     end
   end
