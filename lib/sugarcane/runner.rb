@@ -2,6 +2,7 @@ require 'parallel'
 
 require 'sugarcane/violation_formatter'
 require 'sugarcane/json_formatter'
+require 'sugarcane/menu'
 
 # Accepts a parsed configuration and passes those options to a new Runner
 module SugarCane
@@ -20,8 +21,14 @@ module SugarCane
     end
 
     def run
-      outputter.print formatter.new(violations, opts)
-
+      # puts violations.map { |v| v }
+      while violations.size > 0
+        menu = SugarCane::Menu.new(violations)
+        selected = menu.run
+        system("vim +#{selected[:line]} #{selected[:file]}")
+        check_violations
+      end
+      # outputter.print formatter.new(violations, opts)
       violations.length <= opts.fetch(:max_violations)
     end
 
@@ -31,6 +38,12 @@ module SugarCane
 
     def violations
       @violations ||= checks.
+        map {|check| check.new(opts).violations }.
+        flatten
+    end
+
+    def check_violations
+      @violations = checks.
         map {|check| check.new(opts).violations }.
         flatten
     end

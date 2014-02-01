@@ -56,7 +56,7 @@ module SugarCane
     # Null object for when the file cannot be parsed.
     class InvalidAst < Struct.new(:file_name)
       def violations
-        [{file: file_name, description: "Files contained invalid syntax"}]
+        [{file: file_name, description: "File contained invalid syntax"}]
       end
     end
 
@@ -76,7 +76,7 @@ module SugarCane
             file:        file_name,
             label:       x.first,
             value:       x.last,
-            description: "Methods exceeded maximum allowed ABC complexity"
+            description: "Method exceeded maximum allowed ABC complexity"
           }}
       end
 

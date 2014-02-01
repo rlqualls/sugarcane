@@ -41,7 +41,7 @@ module SugarCane
             file:        file_path,
             line:        line_number + 1,
             label:       message,
-            description: "Lines violated style requirements"
+            description: "Line violated style requirements"
           }}
         end
       end.flatten
