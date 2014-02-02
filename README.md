@@ -4,10 +4,13 @@
     |___/\__,_|\__, |\__,_|_|  \___\__,_|_| |_|\___|
                 |___/                                
 
-Like cane, but sweeter.
+> It's best to get beat with something sweet...
 
-You can find the original project at 
-[square/cane])(https://github.com/square/cane)
+You can find the original project at [square/cane](https://github.com/square/cane)
+
+## Features
+
+  - Go straight from a list of issues their lines in a text editor
 
 ## Installation (for now)
 
@@ -16,14 +19,14 @@ You can find the original project at
     $ bundle
     $ rake install
 
-## Usage (from square/cane but renamed to sugarcane)
+## Usage
 
     suguarcane --abc-glob '{lib,spec}/**/*.rb' --abc-max 15
 
 Your main build task should run this, probably via `bundle exec`. It will have
 a non-zero exit code if any quality checks fail. Also, a report:
 
-    > sugarcane
+    > sugarcane --report
 
     Methods exceeded maximum allowed ABC complexity (2):
 
@@ -38,10 +41,10 @@ a non-zero exit code if any quality checks fail. Also, a report:
     Class definitions require explanatory comments on preceding line (1):
       lib/sugarcane:3  SomeClass
 
-Customize behaviour with a wealth of options:
+Customize behavior with a wealth of options:
 
     > sugarcane --help
-    Usage: cane [options]
+    Usage: sugarcane [options]
 
     Default options are loaded from a .sugarcane file in the current directory.
 
@@ -72,6 +75,7 @@ Customize behaviour with a wealth of options:
     -f, --all FILE                   Apply all checks to given file
         --max-violations VALUE       Max allowed violations (default: 0)
         --json                       Output as JSON
+        --report                     Original cane output
         --parallel                   Use all processors. Slower on small projects, faster on large.
         --color                      Colorize output
 
