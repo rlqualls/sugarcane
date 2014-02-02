@@ -20,7 +20,7 @@ module SugarCane
     KEY_DOWN = 259
     KEY_ENTER = 13
 
-    def initialize(violations, height = 20)
+    def initialize(violations, height = 10)
       @data = violations
       @height = [violations.size, height].min
       @size = @data.size
@@ -54,11 +54,11 @@ module SugarCane
           when KEY_K, KEY_UP
             # draw_info menu, 'move up'
             @menu_position -= 1 unless @menu_position == @min_position
-            @data_position -= 1
+            @data_position -= 1 unless @data_position == 0
           when KEY_J, KEY_DOWN
             # draw_info menu, 'move down'
             @menu_position += 1 unless @menu_position == @max_position
-            @data_position += 1
+            @data_position += 1 unless @data_position == @size - 1
           when KEY_C
             clone
             break
@@ -67,8 +67,8 @@ module SugarCane
           when KEY_Q
             exit
           end
-          @data_position = @size - 1 if @data_position < 0
-          @data_position = 0 if @data_position > @size - 1
+          # @data_position = @size - 1 if @data_position < 0
+          # @data_position = 0 if @data_position > @size - 1
           draw_menu(menu, @menu_position)
           draw_fix_window(fix_window)
           draw_title_window(title_window)
@@ -94,9 +94,13 @@ module SugarCane
         menu.attrset(style)
         position = i + @data_position - @menu_position
         file = @data[position][:file]
-        line = @data[position][:line] || ""
+        if @data[position][:line]
+          line = " #{@data[position][:line]}: "
+        else
+          line = " "
+        end
         desc = @data[position][:description] || ""
-        menu_item = "#{file} #{line}: #{desc}"
+        menu_item = "#{file}#{line}#{desc}"
         if menu_item.length > Ncurses.COLS - 10
           menu_item << "..."
         end
@@ -115,9 +119,11 @@ module SugarCane
     def draw_fix_window(window)
       window.clear
       window.border(*([0]*8))
-      label = @data[@data_position][:label] if @data[@data_position]
+      current = @data[@data_position]
+      label = current[:label] if current
+      severity = " - Severity: #{current[:value]}" if current
       window.move(1, 1)
-      line = "#{label}"
+      line = "#{label} #{severity}"
       window.addstr(line)
       window.refresh
     end

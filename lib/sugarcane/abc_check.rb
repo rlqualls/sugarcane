@@ -2,6 +2,7 @@ require 'ripper'
 require 'set'
 
 require 'sugarcane/file'
+require 'sugarcane/ext/array'
 require 'sugarcane/task_runner'
 
 module SugarCane
@@ -47,10 +48,11 @@ module SugarCane
       ast = Ripper::SexpBuilder.new(SugarCane::File.contents(file_name)).parse
       case ast
       when nil
-        InvalidAst.new(file_name)
+        ast_type = InvalidAst.new(file_name)
       else
-        RubyAst.new(file_name, max_allowed_complexity, ast, exclusions)
-      end.violations
+        ast_type = RubyAst.new(file_name, max_allowed_complexity, ast, exclusions)
+      end
+      ast_type.violations
     end
 
     # Null object for when the file cannot be parsed.
@@ -71,13 +73,17 @@ module SugarCane
 
       def violations
         process_ast(sexps).
-          select {|nesting, complexity| complexity > max_allowed_complexity }.
-          map {|x| {
+          select {|nesting, complexity| complexity[:value] > max_allowed_complexity }.
+          map do |violation| 
+          {
+            # Here, a violation is an array like ["Class#method", {:value => xx, :line => xx}]
             file:        file_name,
-            label:       x.first,
-            value:       x.last,
-            description: "Method exceeded maximum allowed ABC complexity"
-          }}
+            line:        violation.last[:line],
+            label:       violation.first,
+            value:       violation.last[:value],
+            description: "#{violation.first} exceeded maximum allowed ABC complexity"
+          }
+          end
       end
 
       protected
@@ -93,7 +99,10 @@ module SugarCane
           nesting = nesting + [label_for(node)]
           desc = method_description(node, *nesting)
           unless excluded?(desc)
-            complexity[desc] = calculate_abc(node)
+            complexity[desc] = { 
+              :value => calculate_abc(node), 
+              :line => node.line_number 
+            }
           end
         elsif parent = container_label(node)
           nesting = nesting + [parent]

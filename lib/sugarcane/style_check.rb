@@ -40,6 +40,7 @@ module SugarCane
           violations_for_line(line.chomp).map {|message| {
             file:        file_path,
             line:        line_number + 1,
+            value:       line.length,
             label:       message,
             description: "Line violated style requirements"
           }}
@@ -52,7 +53,7 @@ module SugarCane
     def violations_for_line(line)
       result = []
       if line.length > measure
-        result << "Line is >%i characters (%i)" % [measure, line.length]
+        result << "Line is > #{measure} characters"
       end
       result << "Line contains trailing whitespace" if line =~ /\s$/
       result << "Line contains hard tabs"           if line =~ /\t/
