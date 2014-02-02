@@ -53,7 +53,7 @@ module SugarCane
 
         title_window = Ncurses::WINDOW.new(5, Ncurses.COLS - 2,2,1)
         menu = Ncurses::WINDOW.new(@height + 2, Ncurses.COLS - 2,7,1)
-        fix_window = Ncurses::WINDOW.new(3, Ncurses.COLS - 2,@height+10,1)
+        fix_window = Ncurses::WINDOW.new(3, Ncurses.COLS - 2,@height+9,1)
         draw_menu(menu, @menu_position)
         draw_fix_window(fix_window)
         draw_title_window(title_window)
@@ -101,7 +101,7 @@ module SugarCane
         else
           line = " "
         end
-        desc = @data[position][:description] || ""
+        desc = @data[position][:menu_description] || ""
         
         if desc.length > Ncurses.COLS - 10
           desc << "..."
@@ -138,11 +138,8 @@ module SugarCane
     def draw_fix_window(window)
       window.clear
       window.border(*([0]*8))
-      current = @data[@data_position]
-      label = current[:label] if current
-      severity = " - Severity: #{current[:value]}" if current
       window.move(1, 1)
-      line = "#{label} #{severity}"
+      line = "Violations left: #{@data.size}"
       window.addstr(line)
       window.refresh
     end

@@ -42,8 +42,8 @@ module SugarCane
             line:        line_number + 1,
             value:       line.length,
             label:       message,
-            description: message
-            # description: "Line violated style requirements"
+            description: "Line violated style requirements",
+            menu_description: message
           }}
         end
       end.flatten
@@ -54,7 +54,7 @@ module SugarCane
     def violations_for_line(line)
       result = []
       if line.length > measure
-        result << "Line is > #{measure} characters"
+        result << "Line is > #{measure} characters (#{line.length})"
       end
       result << "Line contains trailing whitespace" if line =~ /\s$/
       result << "Line contains hard tabs"           if line =~ /\t/

@@ -81,7 +81,8 @@ module SugarCane
             line:        violation.last[:line],
             label:       violation.first,
             value:       violation.last[:value],
-            description: "#{violation.first} exceeded maximum allowed ABC complexity"
+            description: "Method exceeded maximum allowed ABC complexity",
+            menu_description: "#{violation.first} exceeded maximum allowed ABC complexity"
           }
           end
       end
