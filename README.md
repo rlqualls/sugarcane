@@ -10,7 +10,7 @@ You can find the original project at [square/cane](https://github.com/square/can
 
 ## Features
 
-  - Go straight from a list of issues their lines in a text editor
+  - Go straight from a list of issues to their lines in a text editor
 
 ## Installation (for now)
 
