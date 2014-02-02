@@ -21,8 +21,6 @@ module SugarCane
     end
 
     def run
-      # puts violations
-      puts violations.map { |v| v }
       while violations.size > 0
         menu = SugarCane::Menu.new(violations)
         selected = menu.run

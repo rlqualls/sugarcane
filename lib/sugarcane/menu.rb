@@ -39,6 +39,14 @@ module SugarCane
         Ncurses.noecho
         Ncurses.nonl
         Ncurses.curs_set(0)
+        if Ncurses.has_colors?
+          @background_color = Ncurses::COLOR_BLACK
+          Ncurses.init_pair(1, Ncurses::COLOR_WHITE, @background_color)
+          Ncurses.init_pair(2, Ncurses::COLOR_BLUE, @background_color)
+          Ncurses.init_pair(3, Ncurses::COLOR_CYAN, @background_color)
+          Ncurses.init_pair(4, Ncurses::COLOR_RED, @background_color)
+          Ncurses.init_pair(5, Ncurses::COLOR_GREEN, @background_color)
+        end
         # Ncurses.keypad(screen, true)
         @menu_position = 0
         @data_position = 0
@@ -86,12 +94,6 @@ module SugarCane
       menu.border(*([0]*8))
       @height.times do |i|
         menu.move(i + 1, 1)
-        if i == active_index
-          style = Ncurses::A_STANDOUT
-        else
-          style = Ncurses::A_NORMAL
-        end
-        menu.attrset(style)
         position = i + @data_position - @menu_position
         file = @data[position][:file]
         if @data[position][:line]
@@ -100,11 +102,26 @@ module SugarCane
           line = " "
         end
         desc = @data[position][:description] || ""
-        menu_item = "#{file}#{line}#{desc}"
-        if menu_item.length > Ncurses.COLS - 10
-          menu_item << "..."
+        
+        if desc.length > Ncurses.COLS - 10
+          desc << "..."
         end
-        menu.addstr(menu_item)
+        if i == active_index
+          style = Ncurses::A_STANDOUT
+          menu.attrset(style)
+          menu.addstr(file)
+          menu.addstr(line)
+          menu.addstr(desc)
+        else
+          # style = Ncurses::A_NORMAL
+          menu.attrset(Ncurses.COLOR_PAIR(2))
+          menu.addstr(file)
+          menu.attrset(Ncurses.COLOR_PAIR(3))
+          menu.addstr(line)
+          menu.attrset(Ncurses.COLOR_PAIR(4))
+          menu.addstr(desc)
+          menu.attrset(Ncurses.COLOR_PAIR(1))
+        end
       end
       menu.refresh
     end
@@ -112,7 +129,9 @@ module SugarCane
     def draw_title_window(window)
       window.clear
       # window.border(*([0]*8))
+      window.attrset(Ncurses.COLOR_PAIR(5))
       window.addstr(TITLE)
+      window.attrset(Ncurses.COLOR_PAIR(1))
       window.refresh
     end
 
