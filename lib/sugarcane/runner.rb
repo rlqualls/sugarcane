@@ -24,7 +24,7 @@ module SugarCane
       while violations.size > 0
         menu = SugarCane::Menu.new(violations)
         selected = menu.run
-        system("vim +#{selected[:line]} #{selected[:file]}")
+        edit_file(selected[:file], selected[:line])
         check_violations
       end
       # outputter.print formatter.new(violations, opts)
@@ -57,6 +57,34 @@ module SugarCane
       else
         ViolationFormatter
       end
+    end
+
+    def edit_file(file, line)
+      if ENV['VISUAL']
+        system("#{ENV['VISUAL']} +#{line} #{file}")
+      elsif program_exist? "vim"
+        system("vim +#{line} #{file}")
+      elsif program_exist? "gedit"
+        system("gedit +#{line} #{file}")
+      elsif program_exist? "geany"
+        system("geany +#{line} #{file}")
+      elsif program_exist? "nano"
+        system("nano +#{line} #{file}")
+      else
+        # :(
+        system("notepad.exe #{file}")
+      end
+    end
+
+    def program_exist?(command)
+      exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+      ENV['PATH'].split(::File::PATH_SEPARATOR).each do |path|
+        exts.each { |ext|
+          exe = ::File.join(path, "#{command}#{ext}")
+          return exe if ::File.executable? exe
+        }
+      end
+      return nil
     end
   end
 end
