@@ -110,7 +110,10 @@ BANNER
           "Max allowed violations", default: 0, cast: :to_i
 
         add_option %w(--json),
-          "Output as JSON", default: false
+          "output as json", default: false
+
+        add_option %w(--report),
+          "output a report", default: false
 
         add_option %w(--parallel),
           "Use all processors. Slower on small projects, faster on large.",

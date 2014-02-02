@@ -21,13 +21,7 @@ module SugarCane
     end
 
     def run
-      while violations.size > 0
-        menu = SugarCane::Menu.new(violations)
-        selected = menu.run
-        edit_file(selected[:file], selected[:line])
-        check_violations
-      end
-      # outputter.print formatter.new(violations, opts)
+      check_options(violations, opts)
       violations.length <= opts.fetch(:max_violations)
     end
 
@@ -47,16 +41,23 @@ module SugarCane
         flatten
     end
 
-    def outputter
-      opts.fetch(:out, $stdout)
+    def check_options(violations, opts)
+      if opts[:report]
+        outputter.print ViolationFormatter.new(violations, opts)
+      elsif opts[:json]
+        outputter.print JsonFormatter.new(violations, opts)
+      else
+        while violations.size > 0
+          menu = SugarCane::Menu.new(violations)
+          selected = menu.run
+          edit_file(selected[:file], selected[:line])
+          check_violations
+        end
+      end
     end
 
-    def formatter
-      if opts[:json]
-        JsonFormatter
-      else
-        ViolationFormatter
-      end
+    def outputter
+      opts.fetch(:out, $stdout)
     end
 
     def edit_file(file, line)
