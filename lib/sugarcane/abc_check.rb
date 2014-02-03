@@ -74,7 +74,7 @@ module SugarCane
       def violations
         process_ast(sexps).
           select {|nesting, complexity| complexity[:value] > max_allowed_complexity }.
-          map do |violation| 
+          map do |violation|
           {
             # Here, a violation is an array like ["Class#method", {:value => xx, :line => xx}]
             file:        file_name,
@@ -100,7 +100,7 @@ module SugarCane
           nesting = nesting + [label_for(node)]
           desc = method_description(node, *nesting)
           unless excluded?(desc)
-            complexity[desc] = { 
+            complexity[desc] = {
               :value => calculate_abc(node), 
               :line => node.line_number 
             }

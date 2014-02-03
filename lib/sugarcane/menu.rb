@@ -20,12 +20,11 @@ module SugarCane
     KEY_DOWN = 259
     KEY_ENTER = 13
 
-    def initialize(violations, height = 10)
-      @data = violations
-      @height = [violations.size, height].min
-      @size = @data.size
-      @min_position = 0
-      @max_position = @height - 1
+    def initialize(checks, opts, height = 10)
+      @checks = checks
+      @opts = opts
+      @height = height
+      check_violations
     end
 
     def run
@@ -47,9 +46,6 @@ module SugarCane
           Ncurses.init_pair(4, Ncurses::COLOR_RED, @background_color)
           Ncurses.init_pair(5, Ncurses::COLOR_GREEN, @background_color)
         end
-        # Ncurses.keypad(screen, true)
-        @menu_position = 0
-        @data_position = 0
 
         title_window = Ncurses::WINDOW.new(5, Ncurses.COLS - 2,2,1)
         menu = Ncurses::WINDOW.new(@height + 2, Ncurses.COLS - 2,7,1)
@@ -67,13 +63,12 @@ module SugarCane
             # draw_info menu, 'move down'
             @menu_position += 1 unless @menu_position == @max_position
             @data_position += 1 unless @data_position == @size - 1
-          when KEY_C
-            clone
-            break
           when KEY_ENTER
-            break
+            edit_file(@data[@data_position][:file], @data[@data_position][:line])
+            check_violations
           when KEY_Q
-            exit
+            clean_up
+            break
           end
           # @data_position = @size - 1 if @data_position < 0
           # @data_position = 0 if @data_position > @size - 1
@@ -102,7 +97,6 @@ module SugarCane
           line = " "
         end
         desc = @data[position][:menu_description] || ""
-        
         if desc.length > Ncurses.COLS - 10
           desc << "..."
         end
@@ -145,6 +139,8 @@ module SugarCane
     end
 
     def clean_up
+      Ncurses.stdscr.clear
+      Ncurses.stdscr.refresh
       Ncurses.echo
       Ncurses.nocbreak
       Ncurses.nl
@@ -153,6 +149,51 @@ module SugarCane
 
     def select(item)
       clean_up
+    end
+
+    def edit_file(file, line)
+      if ENV['VISUAL']
+        system("#{ENV['VISUAL']} +#{line} #{file}")
+      elsif program_exist? "vim"
+        system("vim +#{line} #{file}")
+      elsif program_exist? "gedit"
+        system("gedit +#{line} #{file}")
+      elsif program_exist? "geany"
+        system("geany +#{line} #{file}")
+      elsif program_exist? "nano"
+        system("nano +#{line} #{file}")
+      else
+        # :(
+        system("notepad.exe #{file}")
+      end
+    end
+
+    # Allegedly cross-platform way to determine if an executable is in PATH
+    def program_exist?(command)
+      exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+      ENV['PATH'].split(::File::PATH_SEPARATOR).each do |path|
+        exts.each { |ext|
+          exe = ::File.join(path, "#{command}#{ext}")
+          return exe if ::File.executable? exe
+        }
+      end
+      return nil
+    end
+
+    def check_violations
+      violations = @checks.
+        map {|check| check.new(@opts).violations }.
+        flatten
+      @data = violations
+      @height = [@data.size,@height].min
+      @size = @data.size
+      @min_position = 0
+      @max_position = @height - 1
+      @data_position ||= 0
+      @menu_position ||= 0
+      if @data_position > @size - 1
+        @data_position = @size - 1
+      end
     end
   end
 end
