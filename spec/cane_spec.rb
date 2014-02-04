@@ -1,6 +1,7 @@
 require 'spec_helper'
 require "stringio"
 require 'sugarcane/cli'
+require 'sugarcane/menu'
 
 require 'sugarcane/rake_task'
 require 'sugarcane/task_runner'
@@ -9,8 +10,8 @@ require 'sugarcane/task_runner'
 describe 'The sugarcane application' do
   let(:class_name) { "C#{rand(10 ** 10)}" }
 
-  it 'returns a non-zero exit code and a details of checks that failed' do
-    fn = make_file(<<-RUBY + "  ")
+  let(:fn) do 
+    make_file(<<-RUBY + "  ")
       class Harness
         def complex_method(a)
           if a < 2
@@ -21,8 +22,10 @@ describe 'The sugarcane application' do
         end
       end
     RUBY
+  end
 
-    check_file = make_file <<-RUBY
+  let(:check_file) do 
+    make_file <<-RUBY
       class #{class_name} < Struct.new(:opts)
         def self.options
           {
@@ -39,7 +42,9 @@ describe 'The sugarcane application' do
         end
       end
     RUBY
+  end
 
+  it 'returns a non-zero exit code and a details of checks that failed' do
     output, exitstatus = run %(
       --report
       --style-glob #{fn}
@@ -55,6 +60,40 @@ describe 'The sugarcane application' do
     output.should include(
       "Class and Module definitions require explanatory comments"
     )
+    exitstatus.should == 1
+  end
+
+  it 'should not show methods that do not violate the expected ABC complexity' do
+    output, exitstatus = run %(
+      --report
+      --style-glob #{fn}
+      --doc-glob #{fn}
+      --abc-glob #{fn}
+      --abc-max 10
+      -r #{check_file}
+      --check #{class_name}
+      --unhappy-file #{fn}
+    )
+    output.should include("Lines violated style requirements")
+    output.should_not include("Methods exceeded maximum allowed ABC complexity")
+    output.should include(
+      "Class and Module definitions require explanatory comments"
+    )
+    exitstatus.should == 1
+  end
+
+  it 'creates a menu' do
+    pending "Either make a unit test or find a way to create artificial key presses"
+    output, exitstatus = run %(
+      --style-glob #{fn}
+      --doc-glob #{fn}
+      --abc-glob #{fn}
+      --abc-max 1
+      -r #{check_file}
+      --check #{class_name}
+      --unhappy-file #{fn}
+    )
+
     exitstatus.should == 1
   end
 

@@ -100,7 +100,7 @@ class Doc; end
 
   it 'creates a violation for missing README' do
     file = class_double("SugarCane::File").as_stubbed_const
-    stub_const("Cane::File", file)
+    stub_const("SugarCane::File", file)
     file.should_receive(:case_insensitive_glob).with("README*").and_return([])
 
     violations = check("").violations
