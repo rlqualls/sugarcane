@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/rlqualls/sugarcane.png?branch=master)](https://travis-ci.org/rlqualls/sugarcane)
+[![Coverage Status](https://coveralls.io/repos/rlqualls/sugarcane/badge.png)](https://coveralls.io/r/rlqualls/sugarcane)
+[![Code Climate](https://codeclimate.com/github/rlqualls/sugarcane.png)](https://codeclimate.com/github/rlqualls/sugarcane)
+
       ___ _   _  __ _  __ _ _ __ ___ __ _ _ __   ___ 
     / __| | | |/ _` |/ _` | '__/ __/ _` | '_ \ / _ \
     \__ \ |_| | (_| | (_| | | | (_| (_| | | | |  __/
