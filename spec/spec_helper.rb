@@ -1,4 +1,6 @@
 require 'simplecov'
+require 'coveralls'
+Coveralls.wear!
 
 class SimpleCov::Formatter::QualityFormatter
   def format(result)
