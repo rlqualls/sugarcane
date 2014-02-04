@@ -9,7 +9,7 @@ describe SugarCane::Runner do
     end
 
     it 'returns JSON output' do
-      formatter = fire_replaced_class_double("SugarCane::JsonFormatter")
+      formatter = class_double("SugarCane::JsonFormatter").as_stubbed_const
       formatter.should_receive(:new).and_return("JSON")
       buffer = StringIO.new("")
 

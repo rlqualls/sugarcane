@@ -35,7 +35,7 @@ describe SugarCane::ThresholdCheck do
 
     context 'when coverage threshold is valid' do
       before do
-        file = fire_replaced_class_double("SugarCane::File")
+        file = class_double("SugarCane::File").as_stubbed_const
         stub_const("SugarCane::File", file)
         file.should_receive(:contents).with('x').and_return("8\n")
       end
