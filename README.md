@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/rlqualls/sugarcane/badge.png)](https://coveralls.io/r/rlqualls/sugarcane)
 [![Code Climate](https://codeclimate.com/github/rlqualls/sugarcane.png)](https://codeclimate.com/github/rlqualls/sugarcane)
 
-![sugarcane screenshot](http://i.imgur.com/RP7xDLU)
+![sugarcane screenshot](http://i.imgur.com/RP7xDLU.png)
 
 > It's best to get beat with something sweet...
 
