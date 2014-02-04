@@ -5,7 +5,7 @@ require 'sugarcane/version'
 Gem::Specification.new do |gem|
   gem.authors       = ["Robert Qualls"]
   gem.email         = ["robert@robertqualls.com"]
-  gem.description   = "Cane with a menu that opens vim for each issue"
+  gem.description   = "Cane with a menu that opens a text editor for each issue"
   gem.summary       = %q{
     Fails your build if code quality thresholds are not met. Provides
     complexity and style checkers built-in, and allows integration with with
@@ -29,10 +29,12 @@ Gem::Specification.new do |gem|
   gem.license       = "Apache 2.0"
   gem.version       = SugarCane::VERSION
   gem.has_rdoc      = false
+
   gem.add_dependency 'parallel'
   gem.add_dependency 'ncursesw'
+
   gem.add_development_dependency 'rspec', '~> 2.0'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'simplecov'
-  gem.add_development_dependency 'rspec-fire'
+  gem.add_development_dependency 'rspec-fire', '~> 1.2.0'
 end
