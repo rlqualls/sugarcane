@@ -53,6 +53,7 @@ module SugarCane
       self.name = task_name || :cane
       @gte = []
       @options = SugarCane::CLI.default_options
+      @options[:report] = true
 
       if block_given?
         yield self

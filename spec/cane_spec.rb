@@ -6,7 +6,7 @@ require 'sugarcane/rake_task'
 require 'sugarcane/task_runner'
 
 # Acceptance tests
-describe 'The cane application' do
+describe 'The sugarcane application' do
   let(:class_name) { "C#{rand(10 ** 10)}" }
 
   it 'returns a non-zero exit code and a details of checks that failed' do
@@ -41,6 +41,7 @@ describe 'The cane application' do
     RUBY
 
     output, exitstatus = run %(
+      --report
       --style-glob #{fn}
       --doc-glob #{fn}
       --abc-glob #{fn}
@@ -72,7 +73,7 @@ describe 'The cane application' do
   end
 
   it 'colorizes output' do
-    output, exitstatus = run("--color --abc-max 0")
+    output, exitstatus = run("--report --color --abc-max 0")
 
     output.should include("\e[31m")
   end

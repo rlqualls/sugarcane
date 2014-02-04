@@ -31,7 +31,7 @@ describe SugarCane::RakeTask do
     out.should include("theopt")
   end
 
-  it 'can be configured using a .cane file' do
+  it 'can be configured using a .sugarcane file' do
     conf = "--gte 90,99"
 
     task = SugarCane::RakeTask.new(:canefile_quality) do |cane|

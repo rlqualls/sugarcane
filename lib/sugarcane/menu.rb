@@ -194,6 +194,7 @@ module SugarCane
       if @data_position > @size - 1
         @data_position = @size - 1
       end
+      return violations
     end
   end
 end
