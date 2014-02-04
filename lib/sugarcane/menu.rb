@@ -20,7 +20,7 @@ module SugarCane
     KEY_DOWN = 259
     KEY_ENTER = 13
 
-    def initialize(checks, opts, height = 10)
+    def initialize(checks, opts, height = 30)
       @checks = checks
       @opts = opts
       @height = height

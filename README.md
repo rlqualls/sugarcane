@@ -16,6 +16,8 @@ You can find the original project at [square/cane](https://github.com/square/can
 
   - Go straight from a list of issues to their lines in a text editor
 
+![sugarcane in action](http://i.imgur.com/ah6NZng.png)
+
 ## Installation (for now)
 
     $ git clone https://github.com/rlqualls/sugarcane
