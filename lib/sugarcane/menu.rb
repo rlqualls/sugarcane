@@ -64,7 +64,8 @@ module SugarCane
             @menu_position += 1 unless @menu_position == @max_position
             @data_position += 1 unless @data_position == @size - 1
           when KEY_ENTER
-            edit_file(@data[@data_position][:file], @data[@data_position][:line])
+            selected = @data[@data_position]
+            edit_file(selected[:file], selected[:line])
             check_violations
           when KEY_Q
             clean_up

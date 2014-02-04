@@ -2,11 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/rlqualls/sugarcane/badge.png)](https://coveralls.io/r/rlqualls/sugarcane)
 [![Code Climate](https://codeclimate.com/github/rlqualls/sugarcane.png)](https://codeclimate.com/github/rlqualls/sugarcane)
 
-      ___ _   _  __ _  __ _ _ __ ___ __ _ _ __   ___ 
-    / __| | | |/ _` |/ _` | '__/ __/ _` | '_ \ / _ \
-    \__ \ |_| | (_| | (_| | | | (_| (_| | | | |  __/
-    |___/\__,_|\__, |\__,_|_|  \___\__,_|_| |_|\___|
-                |___/                                
+![sugarcane screenshot](http://i.imgur.com/RP7xDLU)
 
 > It's best to get beat with something sweet...
 
@@ -15,8 +11,7 @@ You can find the original project at [square/cane](https://github.com/square/can
 ## Features
 
   - Go straight from a list of issues to their lines in a text editor
-
-![sugarcane in action](http://i.imgur.com/ah6NZng.png)
+  - Drop-in replacement for cane
 
 ## Installation (for now)
 
@@ -27,7 +22,7 @@ You can find the original project at [square/cane](https://github.com/square/can
 
 ## Usage
 
-    suguarcane --abc-glob '{lib,spec}/**/*.rb' --abc-max 15
+    sugarcane --abc-glob '{lib,spec}/**/*.rb' --abc-max 15
 
 Your main build task should run this, probably via `bundle exec`. It will have
 a non-zero exit code if any quality checks fail. Also, a report:

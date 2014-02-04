@@ -50,7 +50,8 @@ module SugarCane
       when nil
         ast_type = InvalidAst.new(file_name)
       else
-        ast_type = RubyAst.new(file_name, max_allowed_complexity, ast, exclusions)
+        ast_type = RubyAst.new(file_name, max_allowed_complexity,
+                               ast, exclusions)
       end
       ast_type.violations
     end
@@ -73,10 +74,13 @@ module SugarCane
 
       def violations
         process_ast(sexps).
-          select {|nesting, complexity| complexity[:value] > max_allowed_complexity }.
+          select do
+            |nesting, complexity| complexity[:value] > max_allowed_complexity
+          end.
           map do |violation|
           {
-            # Here, a violation is an array like ["Class#method", {:value => xx, :line => xx}]
+            # Here, a violation is an array, like:
+            # ["Class#method", {:value => xx, :line => xx}]
             file:        file_name,
             line:        violation.last[:line],
             label:       violation.first,
@@ -101,7 +105,7 @@ module SugarCane
           desc = method_description(node, *nesting)
           unless excluded?(desc)
             complexity[desc] = {
-              :value => calculate_abc(node), 
+              :value => calculate_abc(node),
               :line => node.line_number 
             }
           end

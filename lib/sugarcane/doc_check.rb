@@ -65,7 +65,8 @@ module SugarCane
             line:        class_definition.line,
             label:       class_definition.label,
             description: DESCRIPTION,
-            menu_description: "#{class_definition.label} requires explanatory comments on the previous line"
+            menu_description: "#{class_definition.label} requires explanatory "\
+                               "comments on the previous line"
           }
         end
       end.compact

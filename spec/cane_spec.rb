@@ -10,7 +10,7 @@ require 'sugarcane/task_runner'
 describe 'The sugarcane application' do
   let(:class_name) { "C#{rand(10 ** 10)}" }
 
-  let(:fn) do 
+  let(:fn) do
     make_file(<<-RUBY + "  ")
       class Harness
         def complex_method(a)
@@ -63,7 +63,7 @@ describe 'The sugarcane application' do
     exitstatus.should == 1
   end
 
-  it 'should not show methods that do not violate the expected ABC complexity' do
+  it 'should not show methods within the expected ABC complexity' do
     output, exitstatus = run %(
       --report
       --style-glob #{fn}
