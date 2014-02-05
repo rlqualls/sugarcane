@@ -26,9 +26,13 @@ module SugarCane
     KEY_Q = 113
     KEY_J = 106
     KEY_K = 107
+    KEY_W = 119
+    KEY_S = 115
+    KEY_O = 111
     KEY_UP = 258
     KEY_DOWN = 259
     KEY_ENTER = 13
+    KEY_SPACE = 32
 
     def initialize(checks, opts, height = 30)
       @checks = checks
@@ -65,15 +69,15 @@ module SugarCane
         draw_title_window(title_window)
         while ch = menu.wgetch
           case ch
-          when KEY_K, KEY_UP
+          when KEY_K, KEY_W, KEY_UP
             # draw_info menu, 'move up'
             @menu_position -= 1 unless @menu_position == @min_position
             @data_position -= 1 unless @data_position == 0
-          when KEY_J, KEY_DOWN
+          when KEY_J, KEY_S, KEY_DOWN
             # draw_info menu, 'move down'
             @menu_position += 1 unless @menu_position == @max_position
             @data_position += 1 unless @data_position == @size - 1
-          when KEY_ENTER
+          when KEY_O, KEY_ENTER, KEY_SPACE
             selected = @data[@data_position]
             edit_file(selected[:file], selected[:line])
             check_violations

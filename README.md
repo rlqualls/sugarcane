@@ -13,6 +13,15 @@ You can find the original project at [square/cane](https://github.com/square/can
   - Go straight from violations to their lines in a text editor
   - Otherwise does what cane does
 
+## Controls
+
+(Arrow keys aren't working yet)
+
+  - K,W - up
+  - J,S - down
+  - Q - quit
+  - O, Enter, Space - open file in text editor at the violation
+
 ## Installation (for now)
 
     $ git clone https://github.com/rlqualls/sugarcane
@@ -20,13 +29,21 @@ You can find the original project at [square/cane](https://github.com/square/can
     $ bundle
     $ rake install
 
-## Usage
+## Usage Examples
 
 Navigate to the root of your project and run sugarcane
 
+    $ sugarcane
+
+If you just want to run all checks on a specific file:
+
+    $ sugarcane -f README.md
+
+If you want to run checks on files matching a pattern:
+
     $ sugarcane --abc-glob '{lib,spec}/**/*.rb' --abc-max 15
 
-Alternatively, for `cane` functionality, add the report --option
+For original `cane` functionality, add the --report option
 
     $ sugarcane --report
 
@@ -103,14 +120,13 @@ begin
   desc "Run cane to check quality metrics"
   SugarCane::RakeTask.new(:quality) do |cane|
     cane.abc_max = 10
-    cane.add_threshold 'coverage/covered_percent', :>=, 99
     cane.no_style = true
     cane.abc_exclude = %w(Foo::Bar#some_method)
   end
 
   task :default => :quality
 rescue LoadError
-  warn "cane not available, quality task not provided."
+  warn "sugarcane not available, quality task not provided."
 end
 ```
 
@@ -119,29 +135,6 @@ file name.
 
 Rescuing `LoadError` is a good idea, since `rake -T` failing is totally
 frustrating.
-
-## Adding to a legacy project
-
-SugarCane can be configured to still pass in the presence of a set number of
-violations using the `--max-violations` option. This is ideal for retrofitting
-on to an existing application that may already have many violations. By setting
-the maximum to the current number, no immediate changes will be required to
-your existing code base, but you will be protected from things getting worse.
-
-You may also consider beginning with high thresholds and ratcheting them down
-over time, or defining exclusions for specific troublesome violations (not
-recommended).
-
-## Integrating with SimpleCov
-
-Any value in a file can be used as a threshold:
-
-    > echo "89" > coverage/.last_run.json
-    > sugarcane --gte 'coverage/.last_run.json,90'
-
-    Quality threshold crossed
-
-      coverage/covered_percent is 89, should be >= 90
 
 ## Implementing your own checks
 
