@@ -24,6 +24,7 @@ module SugarCane
     # Don't trust ncursew keys as they don't always work
     KEY_C = 99
     KEY_Q = 113
+    KEY_X = 120
     KEY_J = 106
     KEY_K = 107
     KEY_W = 119
@@ -34,9 +35,9 @@ module SugarCane
     KEY_ENTER = 13
     KEY_SPACE = 32
 
-    def initialize(checks, opts, height = 30)
+    def initialize(checks, options, height = 30)
       @checks = checks
-      @opts = opts
+      @options = options
       @height = height
       check_violations
     end
@@ -81,10 +82,11 @@ module SugarCane
             selected = @data[@data_position]
             edit_file(selected[:file], selected[:line])
             check_violations
-          when KEY_Q
+          when KEY_Q, KEY_X
             clean_up
             break
           end
+          # For cycling through the options but is buggy
           # @data_position = @size - 1 if @data_position < 0
           # @data_position = 0 if @data_position > @size - 1
           draw_menu(menu, @menu_position)
@@ -167,7 +169,9 @@ module SugarCane
     end
 
     def edit_file(file, line)
-      if ENV['VISUAL']
+      if @options[:editor]
+        system("#{@options[:editor]} +#{line} #{file}")
+      elsif ENV['VISUAL']
         system("#{ENV['VISUAL']} +#{line} #{file}")
       elsif program_exist? "vim"
         system("vim +#{line} #{file}")
@@ -197,7 +201,7 @@ module SugarCane
 
     def check_violations
       violations = @checks.
-        map {|check| check.new(@opts).violations }.
+        map {|check| check.new(@options).violations }.
         flatten
       @data = violations
       @height = [@data.size,@height].min

@@ -111,6 +111,8 @@ describe SugarCane::CLI::Parser do
     EOS
     file = class_double("SugarCane::File").as_stubbed_const
     stub_const("SugarCane::File", file)
+    file.should_receive(:exists?).with('./.cane').and_return(true)
+    file.should_receive(:contents).with('./.cane').and_return(defaults)
     file.should_receive(:exists?).with('./.sugarcane').and_return(true)
     file.should_receive(:contents).with('./.sugarcane').and_return(defaults)
 

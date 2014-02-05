@@ -47,6 +47,7 @@ module SugarCane
       end
 
       def get_default_options
+        read_options_from_file './.cane'
         read_options_from_file './.sugarcane'
       end
 
@@ -108,6 +109,8 @@ BANNER
       def add_cane_options
         add_option %w(--max-violations VALUE),
           "Max allowed violations", default: 0, cast: :to_i
+
+        add_option %w(--editor PROGRAM), "Text Editor", default: nil, cast: :to_s
 
         add_option %w(--json),
           "output as json", default: false

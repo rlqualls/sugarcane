@@ -19,7 +19,7 @@ You can find the original project at [square/cane](https://github.com/square/can
 
   - K,W - up
   - J,S - down
-  - Q - quit
+  - Q,X - quit
   - O, Enter, Space - open file in text editor at the violation
 
 ## Installation (for now)
@@ -31,7 +31,8 @@ You can find the original project at [square/cane](https://github.com/square/can
 
 ## Usage Examples
 
-Navigate to the root of your project and run sugarcane
+To run the default checks on all files in your project, navigate to the 
+project root and run sugarcane
 
     $ sugarcane
 
@@ -43,7 +44,14 @@ If you want to run checks on files matching a pattern:
 
     $ sugarcane --abc-glob '{lib,spec}/**/*.rb' --abc-max 15
 
-For original `cane` functionality, add the --report option
+Sugarcane tries to find an editor in your PATH, choosing vim first if it's
+available. You can specify a different editor, though:
+
+    $ sugarcane --editor nano
+    $ sugarcane --editor=gedit
+
+Maybe you don't want the menu. For original `cane` functionality, add 
+the --report option
 
     $ sugarcane --report
 
@@ -170,7 +178,7 @@ end
 
 Include your check either using command-line options:
 
-    cane -r unhappy.rb --check UnhappyCheck --unhappy-file myfile
+    sugarcane -r unhappy.rb --check UnhappyCheck --unhappy-file myfile
 
 Or in your rake task:
 
