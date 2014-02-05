@@ -43,7 +43,7 @@ module SugarCane
       @options[:checks] = @options[:checks] + [check]
     end
 
-    def sugarcanefile=(file)
+    def canefile=(file)
       canefile = SugarCane::CLI::Parser.new
       canefile.parser.parse!(canefile.read_options_from_file(file))
       options.merge! canefile.options
@@ -58,7 +58,7 @@ module SugarCane
       if block_given?
         yield self
       else
-        self.sugarcanefile = './.sugarcane'
+        self.canefile = './.cane'
       end
 
       unless ::Rake.application.last_comment

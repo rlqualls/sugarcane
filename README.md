@@ -10,8 +10,8 @@ You can find the original project at [square/cane](https://github.com/square/can
 
 ## Features
 
-  - Go straight from a list of issues to their lines in a text editor
-  - Drop-in replacement for cane
+  - Go straight from violations to their lines in a text editor
+  - Otherwise does what cane does
 
 ## Installation (for now)
 
@@ -22,12 +22,13 @@ You can find the original project at [square/cane](https://github.com/square/can
 
 ## Usage
 
-    sugarcane --abc-glob '{lib,spec}/**/*.rb' --abc-max 15
+Navigate to the root of your project and run sugarcane
 
-Your main build task should run this, probably via `bundle exec`. It will have
-a non-zero exit code if any quality checks fail. Also, a report:
+    $ sugarcane --abc-glob '{lib,spec}/**/*.rb' --abc-max 15
 
-    > sugarcane --report
+Alternatively, for `cane` functionality, add the report --option
+
+    $ sugarcane --report
 
     Methods exceeded maximum allowed ABC complexity (2):
 
@@ -44,7 +45,7 @@ a non-zero exit code if any quality checks fail. Also, a report:
 
 Customize behavior with a wealth of options:
 
-    > sugarcane --help
+    $ sugarcane --help
     Usage: sugarcane [options]
 
     Default options are loaded from a .sugarcane file in the current directory.
@@ -83,15 +84,15 @@ Customize behavior with a wealth of options:
     -v, --version                    Show version
     -h, --help                       Show this message
 
-Set default options using a `.sugarcane` file:
+Set default options using a `.cane` file:
 
-    > cat .sugarcane
+    $ cat .cane
     --no-doc
     --abc-glob **/*.rb
-    > sugarcane
+    $ sugarcane
 
 It works exactly the same as specifying the options on the command-line.
-Command-line arguments will override arguments specified in the `.sugarcane` file.
+Command-line arguments will override arguments specified in the `.cane` file.
 
 ## Integrating with Rake
 
@@ -113,7 +114,7 @@ rescue LoadError
 end
 ```
 
-Loading options from a `.sugarcane` file is supported by setting `canefile=` to the
+Loading options from a `.cane` file is supported by setting `canefile=` to the
 file name.
 
 Rescuing `LoadError` is a good idea, since `rake -T` failing is totally

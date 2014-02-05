@@ -31,11 +31,11 @@ describe SugarCane::RakeTask do
     out.should include("theopt")
   end
 
-  it 'can be configured using a .sugarcane file' do
+  it 'can be configured using a .cane file' do
     conf = "--gte 90,99"
 
     task = SugarCane::RakeTask.new(:canefile_quality) do |cane|
-      cane.sugarcanefile = make_file(conf)
+      cane.canefile = make_file(conf)
     end
 
     task.should_receive(:abort)
@@ -49,7 +49,7 @@ describe SugarCane::RakeTask do
   it 'defaults to using a canefile without a block' do
     in_tmp_dir do
       conf = "--gte 90,99"
-      conf_file = File.open('.sugarcane', 'w') {|f| f.write conf }
+      File.open('.cane', 'w') {|f| f.write conf }
 
       task = SugarCane::RakeTask.new(:canefile_quality)
 
