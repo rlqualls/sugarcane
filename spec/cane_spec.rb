@@ -24,7 +24,7 @@ describe 'The sugarcane application' do
     RUBY
   end
 
-  let(:check_file) do 
+  let(:check_file) do
     make_file <<-RUBY
       class #{class_name} < Struct.new(:opts)
         def self.options
@@ -83,7 +83,7 @@ describe 'The sugarcane application' do
   end
 
   it 'creates a menu' do
-    pending "Either make a unit test or find a way to create artificial key presses"
+    pending "Make a unit test or find a way to create artificial key presses"
     output, exitstatus = run %(
       --style-glob #{fn}
       --doc-glob #{fn}

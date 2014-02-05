@@ -13,7 +13,7 @@ module SugarCane
 
   # Orchestrates the running of checks per the provided configuration, and
   # hands the result to a formatter for display. This is the core of the
-  # application, but for the actual entry point see `Cane::CLI`.
+  # application, but for the actual entry point see `SugarCane::CLI`.
   class Runner
     def initialize(spec)
       @opts = spec
@@ -31,13 +31,13 @@ module SugarCane
 
     def violations
       @violations ||= checks.
-        map {|check| check.new(opts).violations }.
+        map { |check| check.new(opts).violations }.
         flatten
     end
 
     def check_violations
       @violations = checks.
-        map {|check| check.new(opts).violations }.
+        map { |check| check.new(opts).violations }.
         flatten
     end
 

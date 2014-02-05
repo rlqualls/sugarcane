@@ -86,7 +86,8 @@ module SugarCane
             label:       violation.first,
             value:       violation.last[:value],
             description: "Methods exceeded maximum allowed ABC complexity",
-            menu_description: "#{violation.first} exceeded maximum ABC complexity"
+            menu_description: "#{violation.first} exceeded maximum "\
+                              "ABC complexity"
           }
           end
       end
@@ -106,7 +107,7 @@ module SugarCane
           unless excluded?(desc)
             complexity[desc] = {
               :value => calculate_abc(node),
-              :line => node.line_number 
+              :line => node.line_number
             }
           end
         elsif parent = container_label(node)

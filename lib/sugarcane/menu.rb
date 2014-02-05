@@ -1,6 +1,16 @@
 require "ncursesw"
 
 module SugarCane
+
+  # Produces a ncurses menu that the user can navigate with:
+  #   J/  K: Move up/down
+  #       Q: Quit
+  #   Enter: Open violation in text editor
+  #
+  # Constructor Parameters:
+  #   checks: like ones produced from style_check.rb or doc_check.rb
+  #   opts: command-line parsed options applied to each check
+  #   height: the maximum number of items that can be in the menu
   class Menu
 
   TITLE = <<-'SUGARCANE'
