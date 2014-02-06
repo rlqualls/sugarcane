@@ -1,3 +1,11 @@
+# SugarCane History
+
+## 0.0.1 - 6 February 2014
+
+* Feature: Menu that takes you from a violation to the line in a text editor
+* Change: expect .sugarcane or .cane configuration files 
+* Change: old cane functionality with --report
+
 # Cane History
 
 ## 2.6.1 - 30 October 2013 (2ea008)
