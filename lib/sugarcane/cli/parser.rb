@@ -116,7 +116,7 @@ BANNER
         add_option %w(--max-violations VALUE),
           "Max allowed violations", default: 0, cast: :to_i
 
-        add_option %w(--editor PROGRAM), "Text Editor", default: nil
+        add_option %w(--editor PROGRAM), "Text editor to use", default: nil
 
         add_option %w(--json),
           "output as json", default: false

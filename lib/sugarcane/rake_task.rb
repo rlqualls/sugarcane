@@ -58,7 +58,11 @@ module SugarCane
       if block_given?
         yield self
       else
-        self.canefile = './.cane'
+        if File.exists?('./sugarcane')
+          self.canefile = './.sugarcane'
+        else
+          self.canefile = './.cane'
+        end
       end
 
       unless ::Rake.application.last_comment

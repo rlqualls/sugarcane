@@ -177,16 +177,19 @@ module SugarCane
     def edit_file(file, line)
       if @options[:editor]
         system("#{@options[:editor]} +#{line} #{file}")
+      # If someone purchased sublime, they probably want to use it
+      elsif program_exist? "sublimetext"
+        system("sublimetext #{file}:#{line}")
       elsif ENV['VISUAL']
         system("#{ENV['VISUAL']} +#{line} #{file}")
       elsif program_exist? "vim"
         system("vim +#{line} #{file}")
       elsif program_exist? "gedit"
         system("gedit +#{line} #{file}")
-      elsif program_exist? "geany"
-        system("geany +#{line} #{file}")
       elsif program_exist? "nano"
         system("nano +#{line} #{file}")
+      elsif program_exist? "geany"
+        system("geany +#{line} #{file}")
       else
         # :(
         system("notepad.exe #{file}")

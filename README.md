@@ -6,12 +6,17 @@
 
 > It's best to get beat with something sweet...
 
-You can find the original project at [square/cane](https://github.com/square/cane)
+**Sugarcane** is an enhancement of the **cane** code quality tool. It makes various
+minor changes, but most importantly, it closes the gap between the text editor
+and cane.
+
+You can find the original cane project at [square/cane](https://github.com/square/cane)
 
 ## Features
 
   - Go straight from violations to their lines in a text editor
   - Otherwise does what cane does
+  - Editors supported: sublimetext (untested), vim, gedit, nano
 
 ## Controls
 
@@ -22,7 +27,11 @@ You can find the original project at [square/cane](https://github.com/square/can
   - Q,X - quit
   - O, Enter, Space - open file in text editor at the violation
 
-## Installation (for now)
+## Installation
+
+    $ gem install sugarcane
+
+## Installation (development)
 
     $ git clone https://github.com/rlqualls/sugarcane
     $ cd sugarcane
@@ -44,14 +53,18 @@ If you want to run checks on files matching a pattern:
 
     $ sugarcane --abc-glob '{lib,spec}/**/*.rb' --abc-max 15
 
-Sugarcane tries to find an editor in your PATH, choosing vim first if it's
-available. You can specify a different editor, though:
+Sugarcane tries to find an editor in your PATH, choosing sublime then vim
+first if one is available. You can specify a different editor with `--editor`.
 
     $ sugarcane --editor nano
     $ sugarcane --editor=gedit
 
-Maybe you don't want the menu. For original `cane` functionality, add 
-the --report option
+**NOTE**: Right now, navigating to a line number relies on the convention
+of `+<num_lines>` as an argument (sublimetext is included as an exception).
+
+## Not far from the Tree
+
+For original `cane` functionality, add the --report option
 
     $ sugarcane --report
 
@@ -68,7 +81,7 @@ the --report option
     Class definitions require explanatory comments on preceding line (1):
       lib/sugarcane:3  SomeClass
 
-Customize behavior with a wealth of options:
+## Options
 
     $ sugarcane --help
     Usage: sugarcane [options]
@@ -101,6 +114,7 @@ Customize behavior with a wealth of options:
 
     -f, --all FILE                   Apply all checks to given file
         --max-violations VALUE       Max allowed violations (default: 0)
+        --editor PROGRAM             Text editor to use
         --json                       Output as JSON
         --report                     Original cane output
         --parallel                   Use all processors. Slower on small projects, faster on large.
@@ -109,26 +123,51 @@ Customize behavior with a wealth of options:
     -v, --version                    Show version
     -h, --help                       Show this message
 
-Set default options using a `.cane` file:
+## Configuration Files
 
-    $ cat .cane
+Set default options using a `.cane` or '.sugarcane'. This is easier than telling
+sugarcane what editor you want to use every time.
+
+    $ cat .sugarcane
     --no-doc
     --abc-glob **/*.rb
-    $ sugarcane
+    --editor gedit
 
 It works exactly the same as specifying the options on the command-line.
-Command-line arguments will override arguments specified in the `.cane` file.
+Command-line arguments will override arguments specified in the configuration
+file. Sugarcane will ignore a `.cane` file if it sees a `.sugarcane` file.
 
 ## Integrating with Rake
+
+Sugarcane retains the ability to create rake tasks. The tasks will look for
+configuration files the same way running sugarcane normally does. The build
+will fail if the task finds more than `max_violations` violations which is 0
+by default. Keep this in mind if using sugarcane tasks in continuous
+integration.
+
+```ruby
+  require 'sugarcane/rake_task'
+
+  desc "Run sugarcane to check quality metrics"
+  SugarCane::RakeTask.new(:quality)
+
+  task :default => :quality
+end
+```
+
+Instead of using a configuration file, you can specify options in a block.
+Rescuing `LoadError` is a good idea, since `rake -T` failing is totally
+frustrating.
 
 ```ruby
 begin
   require 'sugarcane/rake_task'
 
-  desc "Run cane to check quality metrics"
+  desc "Run sugarcane to check quality metrics"
   SugarCane::RakeTask.new(:quality) do |cane|
     cane.abc_max = 10
     cane.no_style = true
+    cane.max_violations = 3
     cane.abc_exclude = %w(Foo::Bar#some_method)
   end
 
@@ -138,11 +177,8 @@ rescue LoadError
 end
 ```
 
-Loading options from a `.cane` file is supported by setting `canefile=` to the
-file name.
-
-Rescuing `LoadError` is a good idea, since `rake -T` failing is totally
-frustrating.
+If you have multiple configuration files, you can specify which one to use
+with `SugarCane::RakeTask#canefile=`. For that, the name does not matter.
 
 ## Implementing your own checks
 

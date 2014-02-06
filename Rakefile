@@ -20,6 +20,7 @@ begin
   desc "Run cane to check quality metrics"
   SugarCane::RakeTask.new(:quality) do |cane|
     cane.abc_max = 35
+    cane.max_violations = 3
     # There doesn't seem to be a coverage threshold defined
     # cane.add_threshold 'coverage/covered_percent', :>=, 70
   end
