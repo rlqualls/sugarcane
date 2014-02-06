@@ -47,9 +47,14 @@ module SugarCane
       end
 
       def get_default_options
-        read_options_from_file './.cane'
-        # If the second file is empty, it overrides the first.
-        # read_options_from_file './.sugarcane'
+        # Right now, read_options_from_file can't just be called on
+        # both because if the second one doesn't exist the defaults for
+        # non-existent values will override what's already read
+        if SugarCane::File.exists? './.sugarcane'
+          read_options_from_file './.sugarcane'
+        else
+          read_options_from_file './.cane'
+        end
       end
 
       def read_options_from_file(file)

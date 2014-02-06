@@ -103,18 +103,33 @@ describe SugarCane::CLI::Parser do
     end
   end
 
-  it 'loads default options from .cane file' do
+  it 'loads default options from .sugarcane' do
     defaults = <<-EOS
       --no-doc
       --abc-glob myfile
       --style-glob myfile
     EOS
-    file = class_double("SugarCane::File").as_stubbed_const
-    stub_const("SugarCane::File", file)
-    file.should_receive(:exists?).with('./.cane').and_return(true)
-    file.should_receive(:contents).with('./.cane').and_return(defaults)
-    # file.should_receive(:exists?).with('./.sugarcane').and_return(true)
-    # file.should_receive(:contents).with('./.sugarcane').and_return(defaults)
+
+    SugarCane::File.stub(:exists?).with("./.sugarcane").and_return(true)
+    SugarCane::File.stub(:contents).with("./.sugarcane").and_return(defaults)
+
+    _, result = run("--style-glob myotherfile")
+
+    result[:no_doc].should be
+    result[:abc_glob].should == 'myfile'
+    result[:style_glob].should == 'myotherfile'
+  end
+
+  it 'loads default options from .cane if .sugarcane is not present' do
+    defaults = <<-EOS
+      --no-doc
+      --abc-glob myfile
+      --style-glob myfile
+    EOS
+
+    SugarCane::File.stub(:exists?).with("./.sugarcane").and_return(false)
+    SugarCane::File.stub(:exists?).with("./.cane").and_return(true)
+    SugarCane::File.stub(:contents).with("./.cane").and_return(defaults)
 
     _, result = run("--style-glob myotherfile")
 
