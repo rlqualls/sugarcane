@@ -118,20 +118,21 @@ module SugarCane
           desc << "..."
         end
         if i == active_index
-          # style = Ncurses::A_STANDOUT
-          # menu.attrset(style)
-          menu.addstr("=>" + file)
+          style = Ncurses::A_STANDOUT
+          menu.attrset(style)
+          menu.addstr(file)
           menu.addstr(line)
           menu.addstr(desc)
+          menu.attrset(Ncurses::A_NORMAL)
         else
-          # style = Ncurses::A_NORMAL
           menu.attrset(Ncurses.COLOR_PAIR(2))
-          menu.addstr("  " + file)
+          menu.addstr(file)
           menu.attrset(Ncurses.COLOR_PAIR(3))
           menu.addstr(line)
           menu.attrset(Ncurses.COLOR_PAIR(4))
           menu.addstr(desc)
-          menu.attrset(Ncurses.COLOR_PAIR(1))
+          # menu.attrset(Ncurses.COLOR_PAIR(1))
+          menu.attrset(Ncurses::A_NORMAL)
         end
       end
       menu.refresh
