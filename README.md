@@ -20,8 +20,6 @@ You can find the original cane project at [square/cane](https://github.com/squar
 
 ## Controls
 
-(Arrow keys aren't working yet)
-
   - K,W, UP - up
   - J,S, DOWN - down
   - Q,X - quit
