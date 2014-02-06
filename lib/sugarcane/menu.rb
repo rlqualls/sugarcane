@@ -47,28 +47,13 @@ module SugarCane
         return nil
       end
       begin
+        # can't go in separate function because redeclares constants
         Ncurses.initscr
-        Ncurses.cbreak
-        Ncurses.start_color
-        Ncurses.noecho
-        Ncurses.nonl
-        Ncurses.curs_set(0)
-        if Ncurses.has_colors?
-          @background_color = Ncurses::COLOR_BLACK
-          Ncurses.init_pair(1, Ncurses::COLOR_WHITE, @background_color)
-          Ncurses.init_pair(2, Ncurses::COLOR_BLUE, @background_color)
-          Ncurses.init_pair(3, Ncurses::COLOR_CYAN, @background_color)
-          Ncurses.init_pair(4, Ncurses::COLOR_RED, @background_color)
-          Ncurses.init_pair(5, Ncurses::COLOR_GREEN, @background_color)
-        end
-
-        title_window = Ncurses::WINDOW.new(5, Ncurses.COLS - 2,2,1)
-        menu = Ncurses::WINDOW.new(@height + 2, Ncurses.COLS - 2,7,1)
-        fix_window = Ncurses::WINDOW.new(3, Ncurses.COLS - 2,@height+9,1)
-        draw_menu(menu, @menu_position)
-        draw_fix_window(fix_window)
-        draw_title_window(title_window)
-        while ch = menu.wgetch
+        init_ncurses
+        draw_menu(@menu, @menu_position)
+        draw_fix_window(@fix_window)
+        draw_title_window(@title_window)
+        while ch = @menu.wgetch
           case ch
           when KEY_K, KEY_W, KEY_UP
             # draw menu, 'move up'
@@ -79,8 +64,10 @@ module SugarCane
             @menu_position += 1 unless @menu_position == @max_position
             @data_position += 1 unless @data_position == @size - 1
           when KEY_O, KEY_ENTER, KEY_SPACE
+            clean_up
             selected = @data[@data_position]
             edit_file(selected[:file], selected[:line])
+            init_ncurses
             check_violations
           when KEY_Q, KEY_X
             clean_up
@@ -89,9 +76,9 @@ module SugarCane
           # For cycling through the options but is buggy
           # @data_position = @size - 1 if @data_position < 0
           # @data_position = 0 if @data_position > @size - 1
-          draw_menu(menu, @menu_position)
-          draw_fix_window(fix_window)
-          draw_title_window(title_window)
+          draw_menu(@menu, @menu_position)
+          draw_fix_window(@fix_window)
+          draw_title_window(@title_window)
         end
         return @data[@data_position]
       ensure
@@ -157,6 +144,27 @@ module SugarCane
       window.refresh
     end
 
+    def init_ncurses
+      Ncurses.cbreak
+      Ncurses.start_color
+      Ncurses.noecho
+      Ncurses.nonl
+      Ncurses.curs_set(0)
+
+      if Ncurses.has_colors?
+        @background_color = Ncurses::COLOR_BLACK
+        Ncurses.init_pair(1, Ncurses::COLOR_WHITE, @background_color)
+        Ncurses.init_pair(2, Ncurses::COLOR_BLUE, @background_color)
+        Ncurses.init_pair(3, Ncurses::COLOR_CYAN, @background_color)
+        Ncurses.init_pair(4, Ncurses::COLOR_RED, @background_color)
+        Ncurses.init_pair(5, Ncurses::COLOR_GREEN, @background_color)
+      end
+
+      @title_window = Ncurses::WINDOW.new(5, Ncurses.COLS - 2,2,1)
+      @menu = Ncurses::WINDOW.new(@height + 2, Ncurses.COLS - 2,7,1)
+      @fix_window = Ncurses::WINDOW.new(3, Ncurses.COLS - 2,@height+9,1)
+    end
+
     def clean_up
       Ncurses.stdscr.clear
       Ncurses.stdscr.refresh
@@ -164,10 +172,6 @@ module SugarCane
       Ncurses.nocbreak
       Ncurses.nl
       Ncurses.endwin
-    end
-
-    def select(item)
-      clean_up
     end
 
     def edit_file(file, line)
