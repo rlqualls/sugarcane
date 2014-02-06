@@ -17,8 +17,8 @@ You can find the original project at [square/cane](https://github.com/square/can
 
 (Arrow keys aren't working yet)
 
-  - K,W - up
-  - J,S - down
+  - K,W, UP - up
+  - J,S, DOWN - down
   - Q,X - quit
   - O, Enter, Space - open file in text editor at the violation
 

@@ -30,8 +30,8 @@ module SugarCane
     KEY_W = 119
     KEY_S = 115
     KEY_O = 111
-    KEY_UP = 258
-    KEY_DOWN = 259
+    KEY_UP = 259
+    KEY_DOWN = 258
     KEY_ENTER = 13
     KEY_SPACE = 32
 
@@ -64,6 +64,7 @@ module SugarCane
 
         title_window = Ncurses::WINDOW.new(5, Ncurses.COLS - 2,2,1)
         menu = Ncurses::WINDOW.new(@height + 2, Ncurses.COLS - 2,7,1)
+        Ncurses.keypad(menu, true)
         fix_window = Ncurses::WINDOW.new(3, Ncurses.COLS - 2,@height+9,1)
         draw_menu(menu, @menu_position)
         draw_fix_window(fix_window)
