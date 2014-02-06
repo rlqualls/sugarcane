@@ -64,7 +64,6 @@ module SugarCane
 
         title_window = Ncurses::WINDOW.new(5, Ncurses.COLS - 2,2,1)
         menu = Ncurses::WINDOW.new(@height + 2, Ncurses.COLS - 2,7,1)
-        Ncurses.keypad(menu, true)
         fix_window = Ncurses::WINDOW.new(3, Ncurses.COLS - 2,@height+9,1)
         draw_menu(menu, @menu_position)
         draw_fix_window(fix_window)
@@ -72,11 +71,11 @@ module SugarCane
         while ch = menu.wgetch
           case ch
           when KEY_K, KEY_W, KEY_UP
-            # draw_info menu, 'move up'
+            # draw menu, 'move up'
             @menu_position -= 1 unless @menu_position == @min_position
             @data_position -= 1 unless @data_position == 0
           when KEY_J, KEY_S, KEY_DOWN
-            # draw_info menu, 'move down'
+            # draw_info 'move down'
             @menu_position += 1 unless @menu_position == @max_position
             @data_position += 1 unless @data_position == @size - 1
           when KEY_O, KEY_ENTER, KEY_SPACE
@@ -119,15 +118,15 @@ module SugarCane
           desc << "..."
         end
         if i == active_index
-          style = Ncurses::A_STANDOUT
-          menu.attrset(style)
-          menu.addstr(file)
+          # style = Ncurses::A_STANDOUT
+          # menu.attrset(style)
+          menu.addstr("=>" + file)
           menu.addstr(line)
           menu.addstr(desc)
         else
           # style = Ncurses::A_NORMAL
           menu.attrset(Ncurses.COLOR_PAIR(2))
-          menu.addstr(file)
+          menu.addstr("  " + file)
           menu.attrset(Ncurses.COLOR_PAIR(3))
           menu.addstr(line)
           menu.attrset(Ncurses.COLOR_PAIR(4))
@@ -136,6 +135,7 @@ module SugarCane
         end
       end
       menu.refresh
+      Ncurses.keypad(menu, true)
     end
 
     def draw_title_window(window)
