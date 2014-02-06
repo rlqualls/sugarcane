@@ -10,7 +10,7 @@
 minor changes, but most importantly, it closes the gap between the text editor
 and cane.
 
-You can find the original cane project at [square/cane](https://github.com/square/cane)
+You can find the original cane project at [square/cane](https://github.com/square/cane).
 
 ## Features
 
@@ -68,8 +68,8 @@ For original `cane` functionality, add the --report option
 
     Methods exceeded maximum allowed ABC complexity (2):
 
-      lib/sugarcane.rb  Cane#sample    23
-      lib/sugarcane.rb  Cane#sample_2  17
+      lib/sugarcane.rb  SugarCane#sample    23
+      lib/sugarcane.rb  SugarCane#sample_2  17
 
     Lines violated style requirements (2):
 
@@ -123,7 +123,7 @@ For original `cane` functionality, add the --report option
 
 ## Configuration Files
 
-Set default options using a `.cane` or '.sugarcane'. This is easier than telling
+Set default options using a `.cane` or `.sugarcane`. This is easier than telling
 sugarcane what editor you want to use every time.
 
     $ cat .sugarcane
