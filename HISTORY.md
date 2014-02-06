@@ -1,5 +1,9 @@
 # SugarCane History
 
+## 0.0.2 - 6 February 2014
+
+* Bugfix: sublimetext is now invoked with 'subl'
+
 ## 0.0.1 - 6 February 2014
 
 * Feature: Menu that takes you from a violation to the line in a text editor

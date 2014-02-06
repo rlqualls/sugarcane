@@ -178,8 +178,8 @@ module SugarCane
       if @options[:editor]
         system("#{@options[:editor]} +#{line} #{file}")
       # If someone purchased sublime, they probably want to use it
-      elsif program_exist? "sublimetext"
-        system("sublimetext #{file}:#{line}")
+      elsif program_exist? "subl"
+        system("subl #{file}:#{line}")
       elsif ENV['VISUAL']
         system("#{ENV['VISUAL']} +#{line} #{file}")
       elsif program_exist? "vim"
