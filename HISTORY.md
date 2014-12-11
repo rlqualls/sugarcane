@@ -1,5 +1,9 @@
 # SugarCane History
 
+## 0.0.3 - 11 December 2014
+
+* Bugfix: Did not compile on OSX because of ncursesw. Uses ncurses-ruby now.
+
 ## 0.0.2 - 6 February 2014
 
 * Bugfix: sublimetext is now invoked with 'subl'
