@@ -1,4 +1,4 @@
-require "ncursesw"
+require "ncurses.rb"
 
 module SugarCane
 

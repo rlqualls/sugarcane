@@ -31,7 +31,7 @@ Gem::Specification.new do |gem|
   gem.has_rdoc      = false
 
   gem.add_dependency 'parallel'
-  gem.add_dependency 'ncursesw'
+  gem.add_dependency 'ncurses-ruby'
 
   gem.add_development_dependency 'rspec', '~> 2.0'
   gem.add_development_dependency 'rake'
