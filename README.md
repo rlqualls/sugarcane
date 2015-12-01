@@ -1,6 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/sugarcane.png)](http://badge.fury.io/rb/sugarcane)
 [![Build Status](https://travis-ci.org/rlqualls/sugarcane.png?branch=master)](https://travis-ci.org/rlqualls/sugarcane)
-[![Coverage Status](https://coveralls.io/repos/rlqualls/sugarcane/badge.png)](https://coveralls.io/r/rlqualls/sugarcane)
 [![Code Climate](https://codeclimate.com/github/rlqualls/sugarcane.png)](https://codeclimate.com/github/rlqualls/sugarcane)
 
 ![sugarcane screenshot](http://i.imgur.com/RP7xDLU.png)
