@@ -26,6 +26,16 @@ You can find the original cane project at [square/cane](https://github.com/squar
   - Q,X - quit
   - O, Enter, Space - open file in text editor at the violation
 
+## Dependencies
+
+### OSX
+
+    $ brew install ncurses
+
+### Ubuntu/Debian
+
+    $ sudo apt-get install ncurses-dev
+
 ## Installation
 
     $ gem install sugarcane
@@ -39,8 +49,8 @@ You can find the original cane project at [square/cane](https://github.com/squar
 
 ## Usage Examples
 
-To run the default checks on all files in your project, navigate to the 
-project root and run sugarcane
+To run the default checks on all `.rb` files in your project, navigate to the 
+project root and run sugarcane.
 
     $ sugarcane
 
